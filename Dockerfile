@@ -31,6 +31,13 @@ RUN \
   && chown -R $PUID:$PGID $HOME
 
 ###########################################################################################
+# Install prerequisites
+RUN \
+  apt-get -q update \
+  && apt-get install -qy apt-utils \
+                         software-properties-common
+
+###########################################################################################
 # Update base packages
 RUN \
   apt-get -q update \
@@ -40,12 +47,12 @@ RUN \
 ###########################################################################################
 # general utils
 RUN \
-  apt-get install -qy wget \
-                      git
+  apt-get -q update \
+  && apt-get install -qy wget \
+                         git
 
 ###########################################################################################
 # Python
-
 RUN \
   apt-get -q update \
   && apt-get install -qy python3 \
@@ -53,13 +60,12 @@ RUN \
 
 ###########################################################################################
 # Jupyter
-
 RUN \
   pip3 install jupyterlab \
                ipywidgets \
   && apt-get -q update \
-  && apt-get install nodejs \
-                     npm
+  && apt-get install -qy nodejs \
+                         npm
 
 VOLUME [$WORK_DIR]
 
@@ -161,7 +167,6 @@ RUN jupyter lab build
 
 ###########################################################################################
 # Python libs
-
 RUN \
   pip3 install numpy \
                pandas \
