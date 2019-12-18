@@ -64,17 +64,34 @@ RUN \
                          python3-pip
 
 ###########################################################################################
-# Jupyter
-USER $PUSR:$PGID
-RUN \
-  pip3 install jupyterlab \
-               ipywidgets
-
-USER root
+# Jupyter dependancies
 RUN \
   apt-get -q update \
   && apt-get install -qy nodejs \
                          npm
+
+###########################################################################################
+# installation cleanup
+USER root
+RUN \
+  apt-get -qy autoclean \
+  && apt-get -qy autoremove \
+  && rm -rf /var/lib/apt/lists/*
+
+###########################################################################################
+###########################################################################################
+# Everything here on is local user only
+USER $PUSR:$PGID
+###########################################################################################
+###########################################################################################
+
+
+
+###########################################################################################
+# Jupyter
+RUN \
+  pip3 install jupyterlab \
+               ipywidgets
 
 # Jupyter configs go here
 VOLUME [$HOME]
@@ -82,9 +99,8 @@ VOLUME [$HOME]
 # User data goes here
 VOLUME [$DATA_DIR]
 
-###########################################################################################
-# Jupyter modifications
-USER $PUSR:$PGID
+# update the path so Jupyter will work
+ENV PATH="/usr/local/bin/:${PATH}"
 
 ##########
 # Addons
@@ -106,7 +122,7 @@ ENV NODE_OPTIONS=
 
 #https://github.com/NII-cloud-operation/sshkernel
 RUN \
-  pip3 instal -U sshkernel \
+  pip3 install sshkernel \
   && python3 -m sshkernel install
 
 #https://github.com/takluyver/bash_kernel
@@ -180,8 +196,6 @@ RUN jupyter lab build
 
 ###########################################################################################
 # Python libs
-USER $PUSR:$PGID
-
 RUN \
   pip3 install numpy \
                pandas \
@@ -208,20 +222,8 @@ RUN \
                beautifulsoup4
 
 ###########################################################################################
-# installation cleanup
-USER root
-RUN \
-  apt-get -qy autoclean \
-  && apt-get -qy autoremove \
-  && rm -rf /var/lib/apt/lists/*
-
-###########################################################################################
 # startup tasks
-USER $PUSR:$PGID
-
 WORKDIR $DATA_DIR
 
-CMD["/bin/sh"]
-
-# ENTRYPOINT ["/usr/local/bin/jupyter", "%s"] # pass all commandline params to `docker run <container>` to this
-# CMD ["lab"] # use these params by default
+ENTRYPOINT ["jupyter", "%s"] # pass all commandline params to `docker run <container>` to this
+CMD ["lab"] # use these params by default
