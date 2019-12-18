@@ -7,7 +7,7 @@ FROM ubuntu:latest
 ###########################################################################################
 # general settings
 ENV TERM=xterm
-ENV WORK_DIR="/data"
+ENV DATA_DIR="/data"
   
 ###########################################################################################
 # user setup
@@ -29,6 +29,8 @@ RUN \
   && useradd -r -b / -d $HOME -m -u $PUID -g $PGID -s /bin/bash $PUSR \
   && mkdir -p $HOME \
   && chown -R $PUID:$PGID $HOME
+
+USER $PUSR:$PGID
 
 ###########################################################################################
 # Install prerequisites
@@ -202,8 +204,7 @@ RUN \
 
 ###########################################################################################
 # startup tasks
-USER $PUSR:$PGID
-
 WORKDIR $DATA_DIR
+
 ENTRYPOINT ["jupyter", "%s"] # pass all commandline params to `docker run <container>` to this
 CMD ["lab"] # use these params by default
