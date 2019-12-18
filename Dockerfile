@@ -30,8 +30,6 @@ RUN \
   && mkdir -p $HOME \
   && chown -R $PUID:$PGID $HOME
 
-USER $PUSR:$PGID
-
 ###########################################################################################
 # Install prerequisites
 RUN \
@@ -62,6 +60,8 @@ RUN \
 
 ###########################################################################################
 # Jupyter
+USER $PUSR:$PGID
+
 RUN \
   pip3 install jupyterlab \
                ipywidgets \
