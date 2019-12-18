@@ -69,8 +69,11 @@ RUN \
   && apt-get install -qy nodejs \
                          npm
 
-VOLUME [$HOME] # jupyter's configs go here
-VOLUME [$DATA_DIR] # the user will work here
+# Jupyter configs go here
+VOLUME [$HOME]
+
+# User data goes here
+VOLUME [$DATA_DIR]
 
 ###########################################################################################
 # Jupyter modifications
