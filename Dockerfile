@@ -26,7 +26,7 @@ ENV \
   
 RUN \
   groupadd -r -g $PGID $PUSR \
-  && useradd -r -b / -d $HOME -m -u $PUID -g $PGID -U -s /bin/bash $PUSR \
+  && useradd -r -b / -d $HOME -m -u $PUID -g $PGID -s /bin/bash $PUSR \
   && mkdir -p $HOME \
   && chown -R $PUID:$PGID $HOME
 
