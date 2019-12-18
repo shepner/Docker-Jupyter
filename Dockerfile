@@ -221,5 +221,7 @@ USER $PUSR:$PGID
 
 WORKDIR $DATA_DIR
 
-ENTRYPOINT ["/usr/local/bin/jupyter", "%s"] # pass all commandline params to `docker run <container>` to this
-CMD ["lab"] # use these params by default
+CMD["/bin/sh"]
+
+# ENTRYPOINT ["/usr/local/bin/jupyter", "%s"] # pass all commandline params to `docker run <container>` to this
+# CMD ["lab"] # use these params by default
