@@ -109,14 +109,14 @@ ENV NODE_OPTIONS=
 #to show what kernels are installed:  `jupyter kernelspec list`
 
 #https://github.com/NII-cloud-operation/sshkernel
-RUN \
-  pip3 install sshkernel \
-  && python3 -m sshkernel install
+#RUN \
+#  pip3 install sshkernel \
+#  && python3 -m sshkernel install
 
 #https://github.com/takluyver/bash_kernel
-RUN \
-  pip3 install bash_kernel \
-  && python3 -m bash_kernel.install
+#RUN \
+#  pip3 install bash_kernel \
+#  && python3 -m bash_kernel.install
 
 #https://github.com/jupyter/jupyter/wiki/Jupyter-kernels
 #https://vatlab.github.io/sos-docs/
