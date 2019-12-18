@@ -97,7 +97,7 @@ ENV PATH="/usr/local/bin/:${PATH}"
 RUN pip3 install plotly
 ENV NODE_OPTIONS="--max-old-space-size=4096"
 RUN \
-  jupyter labextension install @jupyter-widgets/jupyterlab-manager --no-build \
+  /usr/local/bin/jupyter labextension install @jupyter-widgets/jupyterlab-manager --no-build \
   && /usr/local/bin/jupyter labextension install jupyterlab-plotly --no-build \
   && /usr/local/bin/jupyter labextension install plotlywidget --no-build \
   && /usr/local/bin/jupyter labextension install jupyterlab-chart-editor --no-build
