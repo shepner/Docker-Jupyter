@@ -96,11 +96,11 @@ ENV PATH="/usr/local/bin/:${PATH}"
 #[Getting Started with Plotly in Python](https://plot.ly/python/getting-started/)
 RUN pip3 install plotly
 ENV NODE_OPTIONS="--max-old-space-size=4096"
-RUN \
-  /usr/local/bin/jupyter labextension install @jupyter-widgets/jupyterlab-manager --no-build \
-  && /usr/local/bin/jupyter labextension install jupyterlab-plotly --no-build \
-  && /usr/local/bin/jupyter labextension install plotlywidget --no-build \
-  && /usr/local/bin/jupyter labextension install jupyterlab-chart-editor --no-build
+#RUN \
+#  /usr/local/bin/jupyter labextension install @jupyter-widgets/jupyterlab-manager --no-build \
+#  && /usr/local/bin/jupyter labextension install jupyterlab-plotly --no-build \
+#  && /usr/local/bin/jupyter labextension install plotlywidget --no-build \
+#  && /usr/local/bin/jupyter labextension install jupyterlab-chart-editor --no-build
 ENV NODE_OPTIONS=
 
 #https://blog.jupyter.org/99-ways-to-extend-the-jupyter-ecosystem-11e5dab7c54
@@ -121,15 +121,15 @@ RUN \
 #https://github.com/jupyter/jupyter/wiki/Jupyter-kernels
 #https://vatlab.github.io/sos-docs/
 #https://github.com/vatlab/SOS
-RUN \
-  pip3 install sos \
-               sos-notebook \
-  && python3 -m sos_notebook.install \
-  && /usr/local/bin/jupyter labextension install transient-display-data --no-build \
-  && /usr/local/bin/jupyter labextension install jupyterlab-sos --no-build
+#RUN \
+#  pip3 install sos \
+#               sos-notebook \
+#  && python3 -m sos_notebook.install \
+#  && /usr/local/bin/jupyter labextension install transient-display-data --no-build \
+#  && /usr/local/bin/jupyter labextension install jupyterlab-sos --no-build
 
 #https://github.com/jupyterlab/jupyterlab-toc
-RUN /usr/local/bin/jupyter labextension install @jupyterlab/toc --no-build
+#RUN /usr/local/bin/jupyter labextension install @jupyterlab/toc --no-build
 
 #https://github.com/jtpio/jupyterlab-topbar
 # container extension
@@ -146,7 +146,7 @@ RUN /usr/local/bin/jupyter labextension install @jupyterlab/toc --no-build
 #RUN jupyter labextension install jupyterlab-theme-toggle --no-build
 
 #https://github.com/QuantStack/jupyterlab-drawio
-RUN /usr/local/bin/jupyter labextension install jupyterlab-drawio --no-build
+#RUN /usr/local/bin/jupyter labextension install jupyterlab-drawio --no-build
 
 #https://github.com/IBM/jupyterlab-s3-browser
 #https://github.com/danielfrg/s3contents
@@ -174,13 +174,12 @@ RUN /usr/local/bin/jupyter labextension install jupyterlab-drawio --no-build
 # https://github.com/telamonian/theme-darcula
 #RUN jupyter labextension install @telamonian/theme-darcula --no-build
 #https://github.com/Rahlir/theme-gruvbox
-RUN /usr/local/bin/jupyter labextension update @rahlir/theme-gruvbox
+#RUN /usr/local/bin/jupyter labextension update @rahlir/theme-gruvbox
 
 
 ##########
 # build the config
-
-RUN /usr/local/bin/jupyter lab build
+#RUN /usr/local/bin/jupyter lab build
 
 ###########################################################################################
 # Python libs
@@ -213,5 +212,6 @@ RUN \
 # startup tasks
 WORKDIR $DATA_DIR
 
-ENTRYPOINT ["/usr/local/bin/jupyter", "%s"] # pass all commandline params to `docker run <container>` to this
-CMD ["lab"] # use these params by default
+#ENTRYPOINT ["/usr/local/bin/jupyter", "%s"] # pass all commandline params to `docker run <container>` to this
+#CMD ["lab"] # use these params by default
+CMD ["/bin/sh"]
