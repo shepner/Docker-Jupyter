@@ -23,14 +23,12 @@ ARG ARG_PGID=1100
 ENV \ 
   PUID=$ARG_PUID \
   PGID=$ARG_PGID
-
-RUN useradd -r -b / -d $HOME -m -u $PUID -g $PGID -U -s /bin/bash $PUSR
   
-#RUN \
-#  groupadd -r -g $PGID $PUSR \
-#  && useradd -r -b / -d $HOME -m -u $PUID -g $PGID -U -s /bin/bash $PUSR \
-#  && mkdir -p $HOME \
-#  && chown -R $PUID:$PGID $HOME
+RUN \
+  groupadd -r -g $PGID $PUSR \
+  && useradd -r -b / -d $HOME -m -u $PUID -g $PGID -U -s /bin/bash $PUSR \
+  && mkdir -p $HOME \
+  && chown -R $PUID:$PGID $HOME
 
 ###########################################################################################
 # Install prerequisites
