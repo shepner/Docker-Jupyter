@@ -3,6 +3,7 @@
 
 ###########################################################################################
 FROM ubuntu:latest
+USER root
 
 ###########################################################################################
 # general settings
@@ -32,6 +33,7 @@ RUN \
 
 ###########################################################################################
 # Install prerequisites
+USER root
 RUN \
   apt-get -q update \
   && apt-get install -qy apt-utils \
@@ -39,6 +41,7 @@ RUN \
 
 ###########################################################################################
 # Update base packages
+USER root
 RUN \
   apt-get -q update \
   && apt-get -qy upgrade \
@@ -46,6 +49,7 @@ RUN \
 
 ###########################################################################################
 # general utils
+USER root
 RUN \
   apt-get -q update \
   && apt-get install -qy wget \
@@ -53,6 +57,7 @@ RUN \
 
 ###########################################################################################
 # Python
+USER root
 RUN \
   apt-get -q update \
   && apt-get install -qy python3 \
@@ -61,11 +66,13 @@ RUN \
 ###########################################################################################
 # Jupyter
 USER $PUSR:$PGID
-
 RUN \
   pip3 install jupyterlab \
-               ipywidgets \
-  && apt-get -q update \
+               ipywidgets
+
+USER root
+RUN \
+  apt-get -q update \
   && apt-get install -qy nodejs \
                          npm
 
@@ -77,7 +84,7 @@ VOLUME [$DATA_DIR]
 
 ###########################################################################################
 # Jupyter modifications
-
+USER $PUSR:$PGID
 
 ##########
 # Addons
@@ -173,6 +180,8 @@ RUN jupyter lab build
 
 ###########################################################################################
 # Python libs
+USER $PUSR:$PGID
+
 RUN \
   pip3 install numpy \
                pandas \
@@ -200,6 +209,7 @@ RUN \
 
 ###########################################################################################
 # installation cleanup
+USER root
 RUN \
   apt-get -qy autoclean \
   && apt-get -qy autoremove \
@@ -207,6 +217,8 @@ RUN \
 
 ###########################################################################################
 # startup tasks
+USER $PUSR:$PGID
+
 WORKDIR $DATA_DIR
 
 ENTRYPOINT ["jupyter", "%s"] # pass all commandline params to `docker run <container>` to this
