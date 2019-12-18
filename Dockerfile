@@ -25,10 +25,13 @@ ENV \
   PGID=$ARG_PGID
 
 RUN \
-  groupadd -r -g $PGID $PUSR \
-  && useradd -r -d $HOME -u $PUID -g $PGID -s /bin/bash $PUSR \
-  && mkdir -p $HOME \
-  && chown -R $PUID:$PGID $HOME
+  useradd -r -b / -d $HOME -m -u $PUID -g $PGID -U -s /bin/bash $PUSR \
+  
+#RUN \
+#  groupadd -r -g $PGID $PUSR \
+#  && useradd -r -b / -d $HOME -m -u $PUID -g $PGID -U -s /bin/bash $PUSR \
+#  && mkdir -p $HOME \
+#  && chown -R $PUID:$PGID $HOME
 
 ###########################################################################################
 # Install prerequisites
@@ -67,7 +70,8 @@ RUN \
   && apt-get install -qy nodejs \
                          npm
 
-VOLUME [$WORK_DIR]
+VOLUME [$HOME] # jupyter's configs go here
+VOLUME [$DATA_DIR] # the user will work here
 
 ###########################################################################################
 # Jupyter modifications
@@ -80,10 +84,10 @@ VOLUME [$WORK_DIR]
 RUN pip3 install plotly
 ENV NODE_OPTIONS="--max-old-space-size=4096"
 RUN \
-  jupyter labextension install @jupyter-widgets/jupyterlab-manager@1.0 --no-build \
-  && jupyter labextension install jupyterlab-plotly@1.2.0 --no-build \
-  && jupyter labextension install plotlywidget@1.2.0 --no-build \
-  && jupyter labextension install jupyterlab-chart-editor@1.2 --no-build
+  jupyter labextension install @jupyter-widgets/jupyterlab-manager --no-build \
+  && jupyter labextension install jupyterlab-plotly --no-build \
+  && jupyter labextension install plotlywidget --no-build \
+  && jupyter labextension install jupyterlab-chart-editor --no-build
 ENV NODE_OPTIONS=
 
 #https://blog.jupyter.org/99-ways-to-extend-the-jupyter-ecosystem-11e5dab7c54
@@ -203,6 +207,6 @@ RUN \
 # startup tasks
 USER $PUSR:$PGID
 
-WORKDIR $WORK_DIR
+WORKDIR $DATA_DIR
 ENTRYPOINT ["jupyter", "%s"] # pass all commandline params to `docker run <container>` to this
 CMD ["lab"] # use these params by default
