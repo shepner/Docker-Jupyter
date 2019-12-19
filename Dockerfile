@@ -48,7 +48,7 @@ RUN \
 ENV DATA_DIR="/data"
 
 RUN \
-  mkdir -p $DATA_DIR
+  mkdir -p $DATA_DIR \
   && chown -R $PUID:$PGID $DATA_DIR
 
 VOLUME [$DATA_DIR]
