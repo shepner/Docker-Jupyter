@@ -88,7 +88,7 @@ VOLUME [$HOME]
 VOLUME [$DATA_DIR]
 
 # update the path so Jupyter will work
-ENV PATH="/usr/local/bin/:${PATH}"
+ENV PATH="${HOME}/.local/bin:${PATH}"
 
 ##########
 # Addons
