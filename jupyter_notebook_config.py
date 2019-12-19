@@ -26,6 +26,7 @@
 
 ## Full path of a config file.
 #c.JupyterApp.config_file = ''
+c.JupyterApp.config_file = '/data/.jupyter/jupyter_notebook_config.py'
 
 ## Specify a config file to load.
 #c.JupyterApp.config_file_name = ''
@@ -80,9 +81,11 @@
 #  Local IP addresses (such as 127.0.0.1 and ::1) are allowed as local, along
 #  with hostnames configured in local_hostnames.
 #c.NotebookApp.allow_remote_access = False
+c.NotebookApp.allow_remote_access = True
 
 ## Whether to allow the user to run the notebook as root.
 #c.NotebookApp.allow_root = False
+c.NotebookApp.allow_root = False
 
 ## DEPRECATED use base_url
 #c.NotebookApp.base_project_url = '/'
@@ -202,6 +205,7 @@
 
 ## The IP address the notebook server will listen on.
 #c.NotebookApp.ip = 'localhost'
+c.NotebookApp.ip = '0.0.0.0'
 
 ## Supply extra arguments that will be passed to Jinja environment.
 #c.NotebookApp.jinja_environment_options = {}
@@ -287,6 +291,7 @@
 #  In such a case, server the notebook server on localhost is not secure since
 #  any user can connect to the notebook server via ssh.
 #c.NotebookApp.password_required = False
+c.NotebookApp.password_required = True
 
 ## The port the notebook server will listen on.
 #c.NotebookApp.port = 8888
