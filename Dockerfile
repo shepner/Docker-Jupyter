@@ -25,12 +25,19 @@ ARG ARG_PGID=1100
 ENV \ 
   PUID=$ARG_PUID \
   PGID=$ARG_PGID
-  
+
+# create the group, user, and home dir
 RUN \
   groupadd -r -g $PGID $PUSR \
   && useradd -r -b / -d $HOME -m -u $PUID -g $PGID -s /bin/bash $PUSR \
   && mkdir -p $HOME \
   && chown -R $PUID:$PGID $HOME
+
+# setup the working directory
+RUN \
+  mkdir -p $DATA_DIR \
+  && chown -R $PUID:$PGID $DATA_DIR
+VOLUME [$HOME]
 
 ###########################################################################################
 # Install prerequisites
@@ -80,12 +87,6 @@ USER $PUSR:$PGID
 RUN \
   pip3 install jupyterlab \
                ipywidgets
-
-# Jupyter configs go here
-VOLUME [$HOME]
-
-# User data goes here
-VOLUME [$DATA_DIR]
 
 # update the path so Jupyter will work
 ENV PATH="${HOME}/.local/bin:${PATH}"
@@ -210,8 +211,20 @@ RUN \
 
 ###########################################################################################
 # startup tasks
+ADD startup.sh $HOME/startup.sh
+
+RUN \
+  mkdir -p $HOME/.jupyter \
+  && chmod 554 $HOME/startup.sh \
+  && chown -R $PUID:$PGID $HOME
+
+ADD jupyter_notebook_config.py $HOME/.jupyter/jupyter_notebook_config.py
+
 WORKDIR $DATA_DIR
 
-#ENTRYPOINT ["/usr/local/bin/jupyter", "%s"] # pass all commandline params to `docker run <container>` to this
+CMD $HOME/startup.sh
+
+
+#ENTRYPOINT ["jupyter", "%s"] # pass all commandline params to `docker run <container>` to this
 #CMD ["lab"] # use these params by default
-CMD ["/bin/sh"]
+#CMD ["/bin/sh"]
