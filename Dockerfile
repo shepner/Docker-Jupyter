@@ -9,7 +9,6 @@ USER root
 ###########################################################################################
 # general settings
 ENV TERM=xterm
-ENV DATA_DIR="/data"
   
 ###########################################################################################
 # user setup
@@ -34,14 +33,20 @@ RUN \
 ###########################################################################################
 # setup the home directory and scripts
 RUN mkdir -p $HOME/.jupyter
+
 ADD jupyter_notebook_config.py.org $HOME/.jupyter/jupyter_notebook_config.py.orig
 ADD startup.sh $HOME/startup.sh
+ADD startup.sh.user $HOME/startup.sh.user
+
 RUN \
   chmod 554 $HOME/startup.sh \
+  chmod 554 $HOME/startup.sh.user \
   && chown -R $PUID:$PGID $HOME
 
 ###########################################################################################
 # setup the working directory
+ENV DATA_DIR="/data"
+
 RUN \
   mkdir -p $DATA_DIR
   && chown -R $PUID:$PGID $DATA_DIR
