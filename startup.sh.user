@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Install Jupyter
+pip3 install jupyterlab \
+             ipywidgets
+
+# This is where it will be installed
+PATH="$HOME/.local/bin:$PATH"
+
+# This Jupyter config file is for the user's specific needs
+if [ ! -e /data/.jupyter/jupyter_notebook_config.py ] ; then
+  jupyter lab --generate-config
+  cp ~/.jupyter/jupyter_notebook_config.py /data/.jupyter/jupyter_notebook_config.py
+fi
+
+# Impliment the base Jupyter config
+cp ~/.jupyter/jupyter_notebook_config.py.orig /data/.jupyter/jupyter_notebook_config.py
+chmod 754 /data/startup.sh
