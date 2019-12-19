@@ -34,7 +34,7 @@ RUN \
 # setup the home directory and scripts
 RUN mkdir -p $HOME/.jupyter
 
-COPY --chown=$PUID:$PGID src/jupyter_notebook_config.py.org $HOME/.jupyter/jupyter_notebook_config.py.orig
+COPY --chown=$PUID:$PGID src/jupyter_notebook_config.py.orig $HOME/.jupyter/jupyter_notebook_config.py.orig
 COPY --chown=$PUID:$PGID src/startup.* $HOME
 
 RUN \
