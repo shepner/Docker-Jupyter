@@ -19,9 +19,8 @@ ENV \
   HOME="/$PUSR"
 
 # set the default values we will use
-ARG \
-  PUID=$ARG_PUID \
-  PGID=$ARG_PGID
+ARG PUID=$ARG_PUID
+ARG PGID=$ARG_PGID
 
 # create the group, user, and home dir
 RUN \
