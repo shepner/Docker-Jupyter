@@ -34,13 +34,11 @@ RUN \
 # setup the home directory and scripts
 RUN mkdir -p $HOME/.jupyter
 
-ADD src/jupyter_notebook_config.py.org $HOME/.jupyter/jupyter_notebook_config.py.orig
-ADD src/startup.sh $HOME/startup.sh
-ADD src/startup.sh.user $HOME/startup.sh.user
+COPY --chown=$PUID:$PGID src/jupyter_notebook_config.py.org $HOME/.jupyter/jupyter_notebook_config.py.orig
+COPY --chown=$PUID:$PGID src/startup.* $HOME
 
 RUN \
-  chmod 554 $HOME/startup.sh \
-  chmod 554 $HOME/startup.sh.user \
+  chmod 554 $HOME/startup.* \
   && chown -R $PUID:$PGID $HOME
 
 ###########################################################################################
