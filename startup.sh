@@ -1,7 +1,9 @@
 #!/bin/bash
 
-if [ ! -e /data/.jupyter/jupyter_notebook_config.py ] ; then
-  cp -R ~/.jupyter/jupyter_notebook_config.py /data
+# Userspace setup and startup
+if [ ! -e /data/startup.sh ] ; then
+  cp ~/startup.sh.user /data/startup.sh
+  chmod 754 /data/startup.sh
 fi
 
-#jupyter lab
+/data/startup.sh
