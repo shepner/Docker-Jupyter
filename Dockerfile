@@ -15,8 +15,8 @@ ENV TERM=xterm
 ENV \
   PUSR=docker \
   ARG_PUID=1003 \
-  ARG_PGID=1100
-ENV HOME="/$PUSR"
+  ARG_PGID=1100 \
+  HOME="/$PUSR"
 
 # set the default values we will use
 ARG PUID=$ARG_PUID
@@ -29,7 +29,7 @@ RUN \
   
 ###########################################################################################
 # setup the home directory and scripts
-RUN mkdir -p $HOME/.jupyter
+#RUN mkdir -p $HOME/.jupyter
 
 COPY src/jupyter_notebook_config.py.orig $HOME/.jupyter/jupyter_notebook_config.py.orig
 COPY src/startup.* $HOME/
