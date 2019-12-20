@@ -31,9 +31,8 @@ RUN \
 # setup the home directory and scripts
 RUN mkdir -p $HOME/.jupyter
 
-COPY \
-  src/jupyter_notebook_config.py.orig $HOME/.jupyter/jupyter_notebook_config.py.orig
-  src/startup.* $HOME
+COPY src/jupyter_notebook_config.py.orig $HOME/.jupyter/jupyter_notebook_config.py.orig
+COPY src/startup.* $HOME
 
 RUN \
   chmod 554 $HOME/startup.* \
