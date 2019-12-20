@@ -85,7 +85,9 @@ RUN \
   apt-get -q update \
   && apt-get -qy autoclean \
   && apt-get -qy autoremove \
-  && rm -rf /var/lib/apt/lists/*
+  && rm -rf /var/lib/apt/lists/* \
+            /tmp/* \
+            /var/tmp/*
 
 ###########################################################################################
 # startup tasks
